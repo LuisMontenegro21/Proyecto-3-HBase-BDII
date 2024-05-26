@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-schemas = {
+table_schemas = {
     'employees': {
         "namespace": "example.avro",
         "type": "record",
