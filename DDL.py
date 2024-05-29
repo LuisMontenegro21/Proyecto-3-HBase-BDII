@@ -10,9 +10,9 @@ def create_table(table_name):
                               "records": {}}
         table_status[table_name] = 'enabled'
         os.makedirs(f"data/{table_name}", exist_ok=True)
-        print(f"Tabla '{table_name}' creada con exito.")
+        print(f"Table '{table_name}' created successfully.")
     else:
-        print(f"Tabla '{table_name}' ya existe.")
+        print(f"Table '{table_name}' already exists.")
 
 def list_tables():
     if tables:
@@ -20,21 +20,24 @@ def list_tables():
         for table_name, status in table_status.items():
             print(f"- {table_name} ({status})")
     else:
-        print("No existen tablas")
+        print("There are no tables")
 
 def disable_table(table_name):
     if table_name in tables:
         table_status[table_name] = 'disabled'
         print(f"Table '{table_name}' is now disabled.")
     else:
-        print("No existen tablas")
+        print(f"Table {table_name} does not exist")
 
 def is_enabled(table_name):
-    if table_name in tables:
-        status = table_status[table_name]
-        print(f"Table '{table_name}' is {'enabled' if status == 'enabled' else 'disabled'}.")
+    if table_name in table_schemas:
+        if table_status[table_name] == 'disabled':
+            table_status[table_name] = 'enabled'
+            print(f"Table '{table_name}' is now enabled.")
+        else:
+            print(f"Table '{table_name}' is already enabled.")
     else:
-        print("No existen tablas")
+        print(f"Table: {table_name} does not exist.")
 
 def alter_table(table_name):
     if table_name in tables:
@@ -58,13 +61,14 @@ def alter_table(table_name):
         else:
             print("Invalid choice.")
     else:
-        print("Table does not exist.")
+        print(f"Table {table_name} does not exist.")
 
+# TODO check correct functionality
 def drop_table(table_name):
-    if table_name in tables:
+    if table_name in table_schemas:
         region_dir = f"data/{table_name}"
         if os.path.exists(region_dir):
-            for root, dirs, files in os.walk(region_dir, top_down=False):
+            for root, dirs, files in os.walk(region_dir):
                 for name in files:
                     os.remove(os.path.join(root, name))
                 for name in dirs:
@@ -74,7 +78,8 @@ def drop_table(table_name):
         del table_status[table_name]
         print(f"Table '{table_name}' dropped.")
     else:
-        print("No existen tablas")
+        print(f"Table {table_name} does not exist")
+
 
 def drop_all_tables():
     for table_name in list(tables.keys()):
@@ -85,4 +90,4 @@ def describe_table(table_name):
     if table_name in tables:
         print(json.dumps(tables[table_name]['schema'], indent=2))
     else:
-        print("No existen tablas")
+        print(f"Table {table_name} does not exist")

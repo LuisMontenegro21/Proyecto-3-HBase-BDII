@@ -1,8 +1,11 @@
 from collections import defaultdict
-
+import avro.schema
+import avro.io
+import avro.datafile
+import json
 table_schemas = {
     'employees': {
-        "namespace": "example.avro",
+        "namespace": "com.companyname.hr.employees",
         "type": "record",
         "name": "Employee",
         "fields": [
@@ -17,7 +20,7 @@ table_schemas = {
         ]
     },
     'departments': {
-        "namespace": "example.avro",
+        "namespace": "com.companyname.hr.departments",
         "type": "record",
         "name": "Department",
         "fields": [
@@ -28,7 +31,7 @@ table_schemas = {
         ]
     },
     'projects': {
-        "namespace": "example.avro",
+        "namespace": "com.companyname.hr.projects",
         "type": "record",
         "name": "Project",
         "fields": [
@@ -39,7 +42,7 @@ table_schemas = {
         ]
     },
     'candidates': {
-        "namespace": "example.avro",
+        "namespace": "com.companyname.hr.candidates",
         "type": "record",
         "name": "Candidate",
         "fields": [
@@ -55,3 +58,8 @@ table_schemas = {
 
 tables = {}
 table_status = defaultdict(lambda: 'enabled')
+
+employee_avro_schema = avro.schema.Parse(json.dumps(table_schemas["employees"]))
+departments_avro_schema = avro.schema.Parse(json.dumps(table_schemas["departments"]))
+projects_avro_schema = avro.schema.Parse(json.dumps(table_schemas["projects"]))
+candidates_avro_schema = avro.schema.Parse(json.dumps(table_schemas["candidates"]))

@@ -8,6 +8,7 @@ def menu():
     print("+++++++++++++++++++++++++++++++++++++")
     try:
         while True:
+            print("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++")
             print("1. Crear Tabla")
             print("2. Listar Tablas")
             print("3. Deshabilitar Tablas")
@@ -25,67 +26,68 @@ def menu():
             print("15. Contar Registros")
             print("16. Truncar Tabla")
             print("17. Salir")
-            choice = input("Escribe el número de la opción que deseas:")
-            if choice == '1':
+            print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++\n")
+            choice = str(input("Escribe el número de la opción que deseas: "))
+            if choice == '1' or choice == 'create':
                 table_name = input("Escribe el nombre de la tabla: ")
                 create_table(table_name)
-            elif choice == '2':
+            elif choice == '2' or choice == 'list':
                 list_tables()
-            elif choice == '3':
+            elif choice == '3' or choice == 'disable':
                 table_name = input("Escribe el nombre de la tabla: ")
                 disable_table(table_name)
-            elif choice == '4':
+            elif choice == '4' or choice == 'enable': 
                 table_name = input("Escribe el nombre de la tabla: ")
                 is_enabled(table_name)
-            elif choice == '5':
+            elif choice == '5' or choice == 'alter':
                 table_name = input("Escribe el nombre de la tabla: ")
                 alter_table(table_name)
-            elif choice == '6':
+            elif choice == '6' or choice == 'drop': 
                 table_name = input("Escribe el nombre de la tabla: ")
                 drop_table(table_name)
-            elif choice == '7':
+            elif choice == '7' or choice == 'dropall': # needs fix
                 drop_all_tables()
-            elif choice == '8':
+            elif choice == '8' or choice == 'describe':
                 table_name = input("Escribe el nombre de la tabla: ")
                 describe_table(table_name)
-            elif choice == '9':
+            elif choice == '9' or choice == 'insert': # needs fix 
                 table_name = input("Escribe el nombre de la tabla: ")
                 insert_record(table_name)
-            elif choice == '10':
+            elif choice == '10' or choice == 'display':
                 table_name = input("Escribe el nombre de la tabla: ")
                 display_data(table_name)
-            elif choice == '11':
+            elif choice == '11' or choice == 'search':
                 table_name = input("Escribe el nombre de la tabla: ")
                 row_key = input("Escribe el valor de la fila: ")
                 record = get(table_name, row_key)
                 if record:
                     print(json.dumps(record, indent=2))
-            elif choice == '12':
+            elif choice == '12' or choice == 'searchall':
                 table_name = input("Escribe el nombre de la tabla: ")
                 records = scan(table_name)
                 if records:
                     for row_key, data in records.items():
                         print(f"Fila {row_key}: {json.dumps(data, indent=2)}")
-            elif choice == '13':
+            elif choice == '13' or choice == 'deletecol':
                 table_name = input("Escribe el nombre de la tabla: ")
                 row_key = input("Escribe el valor de la fila: ")
                 column_family = input("Escribe el nombre de la familia de columnas: ")
                 column = input("Escribe la columna:")
                 delete(table_name, row_key, column_family, column)
-            elif choice == '14':
+            elif choice == '14' or choice == 'deleteallcol':
                 table_name = input("Escribe el nombre de la tabla: ")
                 row_key = input("Escribe el valor de la fila: ")
                 deleteall(table_name, row_key)
-            elif choice == '15':
+            elif choice == '15' or choice == 'count':
                 table_name = input("Escribe el nombre de la tabla: ")
                 count(table_name)
-            elif choice == '16':
+            elif choice == '16' or choice == 'truncate':
                 table_name = input("Escribe el nombre de la tabla: ")
                 truncate(table_name)
-            elif choice == '17':
+            elif choice == '17' or choice == 'exit':
                 break
             else:
-                print("Opción invalida. prueba otra vez")
+                print("Invalid option, try again")
         
     except Exception as e:
         print(f"Error : {e}")
