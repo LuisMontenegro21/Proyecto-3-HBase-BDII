@@ -30,7 +30,8 @@ def menu():
             choice = str(input("Escribe el número de la opción que deseas: "))
             if choice == '1' or choice == 'create':
                 table_name = input("Escribe el nombre de la tabla: ")
-                create_table(table_name)
+                namespace = get_namespace(table_name)
+                create_table(table_name, namespace)
             elif choice == '2' or choice == 'list':
                 list_tables()
             elif choice == '3' or choice == 'disable':
@@ -45,12 +46,12 @@ def menu():
             elif choice == '6' or choice == 'drop': 
                 table_name = input("Escribe el nombre de la tabla: ")
                 drop_table(table_name)
-            elif choice == '7' or choice == 'dropall': # needs fix
+            elif choice == '7' or choice == 'dropall': 
                 drop_all_tables()
             elif choice == '8' or choice == 'describe':
                 table_name = input("Escribe el nombre de la tabla: ")
                 describe_table(table_name)
-            elif choice == '9' or choice == 'insert': # needs fix 
+            elif choice == '9' or choice == 'insert': 
                 table_name = input("Escribe el nombre de la tabla: ")
                 insert_record(table_name)
             elif choice == '10' or choice == 'display':

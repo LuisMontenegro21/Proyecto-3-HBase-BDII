@@ -1,9 +1,9 @@
 from schemas import table_schemas, tables, table_status
 import os, json
 
-def create_table(table_name):
+def create_table(table_name, namespace):
     if table_name not in tables:
-        tables[table_name] = {"schema": {"namespace": "example.avro",
+        tables[table_name] = {"schema": {"namespace": namespace,
                                          "type": "record",
                                          "name": table_name,
                                          "fields": []},
@@ -63,7 +63,7 @@ def alter_table(table_name):
     else:
         print(f"Table {table_name} does not exist.")
 
-# TODO check correct functionality
+
 def drop_table(table_name):
     if table_name in table_schemas:
         region_dir = f"data/{table_name}"
@@ -91,3 +91,6 @@ def describe_table(table_name):
         print(json.dumps(tables[table_name]['schema'], indent=2))
     else:
         print(f"Table {table_name} does not exist")
+
+def get_namespace(table_name):
+    return f"com.companyname.hr.{table_name}"
