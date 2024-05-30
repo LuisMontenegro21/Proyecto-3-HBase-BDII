@@ -61,7 +61,7 @@ def disable_table(table_name):
         print(f"Table {table_name} does not exist")
 
 def is_enabled(table_name):
-    if table_name in table_schemas:
+    if table_name in tables:
         if table_status[table_name] == 'disabled':
             table_status[table_name] = 'enabled'
             print(f"Table '{table_name}' is now enabled.")
@@ -72,9 +72,14 @@ def is_enabled(table_name):
 
 def alter_table(table_name):
     if table_name in tables:
+        if table_status[table_name] == 'disabled':
+            print(f"Table '{table_name}' is disabled. Operation cancelled.")
+            return
+
         print("1. Add Field")
         print("2. Remove Field")
         choice = input("Enter choice: ")
+
         if choice == '1':
             field_name = input("Enter new field name: ")
             field_type = input("Enter new field type (int, string, float): ")
@@ -92,7 +97,7 @@ def alter_table(table_name):
         else:
             print("Invalid choice.")
     else:
-        print(f"Table {table_name} does not exist.")
+        print(f"Table '{table_name}' does not exist.")
 
 
 def drop_table(table_name):
