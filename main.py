@@ -37,19 +37,11 @@ def menu():
                 put_record()
             elif choice == '10' or choice == 'display':
                 table_name = input("Escribe el nombre de la tabla: ")
-                display_data(table_name)
+                display_data()
             elif choice == '11' or choice == 'get':
-                table_name = input("Escribe el nombre de la tabla: ")
-                row_key = input("Escribe el valor de la fila: ")
-                record = get(table_name, row_key)
-                if record:
-                    print(json.dumps(record, indent=2))
+                get()
             elif choice == '12' or choice == 'scan':
-                table_name = input("Escribe el nombre de la tabla: ")
-                records = scan(table_name)
-                if records:
-                    for row_key, data in records.items():
-                        print(f"Fila {row_key}: {json.dumps(data, indent=2)}")
+                scan()
             elif choice == '13' or choice == 'deletecol':
                 table_name = input("Escribe el nombre de la tabla: ")
                 row_key = input("Escribe el valor de la fila: ")

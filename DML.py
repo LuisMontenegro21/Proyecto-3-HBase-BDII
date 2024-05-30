@@ -56,26 +56,66 @@ def put_record():
 
 
 
+def get():
+    table_name = input("Input the table name: ")
+    row_key = input("Input the row_key: ")
+
+    if table_name not in tables:
+        print(f"Table '{table_name}' does not exist.")
+        
+
+    table = tables[table_name]
+
+    if row_key not in table['records']:
+        print(f"Row '{row_key}' does not exist in table '{table_name}'.")
+        
+
+    record = table['records'][row_key]
+
+    result = {}
+    for column_family, columns in record.items():
+        for column_qualifier, cells in columns.items():
+            for cell in cells:
+                column_name = f"{column_family}:{column_qualifier}"
+                if column_name not in result:
+                    result[column_name] = []
+                result[column_name].append(f"timestamp = {cell['timestamp']}, value = {cell['value']}")
+
+    if result:
+        for column, values in result.items():
+            for value in values:
+                print(f"{column}: {value}")
 
 
+def scan(table_name, start_row=None, end_row=None):
+    table_name = input("Input table name: ")
 
-def get(table_name, row_key):
-    if table_name in tables and table_status[table_name] == 'enabled':
-        if row_key in tables[table_name]['records']:
-            return tables[table_name]['records'][row_key]
-        else:
-            print(f"Row {row_key} does not exist in table {table_name}.")
-    else:
-        print("Table does not exist or is disabled.")
-    return None
+    if table_name not in tables:
+        print(f"Table '{table_name}' does not exist.")
+        return None
 
+    table = tables[table_name]
+    records = table['records']
 
-def scan(table_name):
-    if table_name in tables and table_status[table_name] == 'enabled':
-        return tables[table_name]['records']
-    else:
-        print("Table does not exist or is disabled.")
-    return None
+    result = {}
+
+    for row_key in sorted(records.keys()):
+        record = records[row_key]
+        result[row_key] = {}
+        for column_family, columns in record.items():
+            for column_qualifier, cells in columns.items():
+                column_name = f"{column_family}:{column_qualifier}"
+                if column_name not in result[row_key]:
+                    result[row_key][column_name] = []
+                for cell in cells:
+                    result[row_key][column_name].append(f"timestamp = {cell['timestamp']}, value = {cell['value']}")
+
+    if result:
+        for row_key, columns in result.items():
+            print(f"Row {row_key}:")
+            for column, values in columns.items():
+                for value in values:
+                    print(f"  {column}: {value}")
 
 
 def delete(table_name, row_key, column_family, column):
