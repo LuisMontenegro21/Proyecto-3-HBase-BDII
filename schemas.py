@@ -1,8 +1,37 @@
 from collections import defaultdict
-import avro.schema
-import avro.io
-import avro.datafile
-import json
+predefined_schemas = {
+    "employees": [
+        {"name": "employee_id", "type": "int"},
+        {"name": "first_name", "type": "string"},
+        {"name": "last_name", "type": "string"},
+        {"name": "department_id", "type": "int"},
+        {"name": "email", "type": "string"},
+        {"name": "hire_date", "type": "string"},
+        {"name": "salary", "type": "float"},
+        {"name": "position", "type": "string"}
+    ],
+    "departments": [
+        {"name": "department_id", "type": "int"},
+        {"name": "department_name", "type": "string"},
+        {"name": "creation_date", "type": "string"},
+        {"name": "manager_id", "type": "int"}
+    ],
+    "projects": [
+        {"name": "project_id", "type": "int"},
+        {"name": "project_name", "type": "string"},
+        {"name": "start_date", "type": "string"},
+        {"name": "end_date", "type": "string"}
+    ],
+    "candidates": [
+        {"name": "candidate_id", "type": "int"},
+        {"name": "first_name", "type": "string"},
+        {"name": "last_name", "type": "string"},
+        {"name": "department", "type": "string"},
+        {"name": "status", "type": "string"},
+        {"name": "email", "type": "string"}
+    ]
+}
+
 table_schemas = {
     'employees': {
         "namespace": "com.companyname.hr.employees",
@@ -59,7 +88,4 @@ table_schemas = {
 tables = {}
 table_status = defaultdict(lambda: 'enabled')
 
-employee_avro_schema = avro.schema.Parse(json.dumps(table_schemas["employees"]))
-departments_avro_schema = avro.schema.Parse(json.dumps(table_schemas["departments"]))
-projects_avro_schema = avro.schema.Parse(json.dumps(table_schemas["projects"]))
-candidates_avro_schema = avro.schema.Parse(json.dumps(table_schemas["candidates"]))
+

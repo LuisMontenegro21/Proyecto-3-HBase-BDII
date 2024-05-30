@@ -1,13 +1,44 @@
-from schemas import table_schemas, tables, table_status
+from schemas import table_schemas, tables, table_status, predefined_schemas
 import os, json
 
-def create_table(table_name, namespace):
+def get_fields_from_user():
+    fields = []
+    while True:
+        field_name = input("Enter field name (or 'done' to finish): ")
+        if field_name.lower() == 'done':
+            break
+        field_type = input("Enter field type (int, string, float): ")
+        if field_type in ['int', 'string', 'float']:
+            fields.append({"name": field_name, "type": field_type})
+        else:
+            print("Invalid field type. Please enter 'int', 'string', or 'float'.")
+    return fields
+
+def create_table(table_name, module_name=None, namespace=None):
+    if table_name in predefined_schemas:
+        fields = predefined_schemas[table_name]
+    else:
+        print(f"No predefined schema for table '{table_name}'. Please define fields manually.")
+        fields = get_fields_from_user()
+        if not fields:
+            print("No fields defined. Table creation aborted.")
+            return
+
+    if module_name:
+        namespace = get_namespace(table_name)
+    elif namespace is None:
+        namespace = input("Enter namespace: ")
+    
     if table_name not in tables:
-        tables[table_name] = {"schema": {"namespace": namespace,
-                                         "type": "record",
-                                         "name": table_name,
-                                         "fields": []},
-                              "records": {}}
+        tables[table_name] = {
+            "schema": {
+                "namespace": namespace,
+                "type": "record",
+                "name": table_name,
+                "fields": fields
+            },
+            "records": []
+        }
         table_status[table_name] = 'enabled'
         os.makedirs(f"data/{table_name}", exist_ok=True)
         print(f"Table '{table_name}' created successfully.")
@@ -82,9 +113,15 @@ def drop_table(table_name):
 
 
 def drop_all_tables():
-    for table_name in list(tables.keys()):
-        drop_table(table_name)
-    print("All tables dropped.")
+    accept = str(input("Are you sure you want to delete all tables? : y/n"))
+    if accept == 'y':
+        for table_name in list(tables.keys()):
+            drop_table(table_name)
+        print("All tables dropped.")
+    elif accept == 'n':
+        print("Drop all tables canceled")
+    else:
+        print("Invalid command")
 
 def describe_table(table_name):
     if table_name in tables:
