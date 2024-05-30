@@ -1,0 +1,1 @@
+{"namespace": "com.companyname.candidates", "type": "record", "name": "candidates", "fields": [{"name": "row_key", "type": "string"}, {"name": "timestamp", "type": "string"}, {"name": "version", "type": "int"}], "column_families": {"personal": {"versions": 3}, "application": {"versions": 3}}}

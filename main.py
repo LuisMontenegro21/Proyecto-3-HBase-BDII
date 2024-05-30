@@ -1,5 +1,5 @@
-from DDL import *
-from DML import count, delete, deleteall, get, put, scan, truncate
+from DDL import create_table, list_tables, disable_table, enable_table, alter_table, drop_table, describe_table, drop_all
+from DML import count, delete, deleteall, get, put_record, scan, truncate
 from functions import *
 
 def menu():
@@ -9,61 +9,42 @@ def menu():
     try:
         while True:
             print("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-            print("1. Crear Tabla")
-            print("2. Listar Tablas")
-            print("3. Deshabilitar Tablas")
-            print("4. Habilitar Tablas")
-            print("5. Alterar Tabla")
-            print("6. Borrar Tabla")
-            print("7. Borrar Todas las Tablas")
-            print("8. Describir Tabla")
-            print("9. Insertar Datos")
-            print("10. Mostrar Datos")
-            print("11. Buscar Datos")
-            print("12. Buscar Todos los Datos (scan)")
-            print("13. Borrar Columna")
-            print("14. Borrar Todas las Columnas")
-            print("15. Contar Registros")
-            print("16. Truncar Tabla")
-            print("17. Salir")
+            print("1. Crear Tabla 2. Listar Tablas 3. Deshabilitar Tablas")
+            print("4. Habilitar Tablas 5. Alterar Tabla 6. Borrar Tabla")    
+            print("7. Borrar Todas las Tablas 8. Describir Tabla 9. Insertar Datos (put)")
+            print("10. Mostrar Datos 11. Buscar Datos 12. Buscar Todos los Datos (scan)")
+            print("13. Borrar Columna 14. Borrar Todas las Columnas 15. Contar Registros")
+            print("16. Truncar Tabla 17. Salir")
             print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++\n")
             choice = str(input("Escribe el número de la opción que deseas: "))
-            if choice == '1' or choice == 'create':
-                table_name = input("Escribe el nombre de la tabla: ")
-                namespace = get_namespace(table_name)
-                create_table(table_name, namespace)
-            elif choice == '2' or choice == 'list':
+            if choice == '1' or choice == 'create': # create tables
+                create_table()
+            elif choice == '2' or choice == 'list': # list tables
                 list_tables()
-            elif choice == '3' or choice == 'disable':
-                table_name = input("Escribe el nombre de la tabla: ")
-                disable_table(table_name)
-            elif choice == '4' or choice == 'enable': 
-                table_name = input("Escribe el nombre de la tabla: ")
-                is_enabled(table_name)
-            elif choice == '5' or choice == 'alter':
-                table_name = input("Escribe el nombre de la tabla: ")
-                alter_table(table_name)
-            elif choice == '6' or choice == 'drop': 
-                table_name = input("Escribe el nombre de la tabla: ")
-                drop_table(table_name)
-            elif choice == '7' or choice == 'dropall': 
-                drop_all_tables()
-            elif choice == '8' or choice == 'describe':
-                table_name = input("Escribe el nombre de la tabla: ")
-                describe_table(table_name)
-            elif choice == '9' or choice == 'insert': 
-                table_name = input("Escribe el nombre de la tabla: ")
-                insert_record(table_name)
+            elif choice == '3' or choice == 'disable': # disable tables
+                disable_table()
+            elif choice == '4' or choice == 'enable': # enable tables
+                enable_table()
+            elif choice == '5' or choice == 'alter': # alter tables
+                alter_table()
+            elif choice == '6' or choice == 'drop': # drop table
+                drop_table()
+            elif choice == '7' or choice == 'dropall':  # drop tables
+                drop_all()
+            elif choice == '8' or choice == 'describe': # describe table
+                describe_table()
+            elif choice == '9' or choice == 'put': # put on table
+                put_record()
             elif choice == '10' or choice == 'display':
                 table_name = input("Escribe el nombre de la tabla: ")
                 display_data(table_name)
-            elif choice == '11' or choice == 'search':
+            elif choice == '11' or choice == 'get':
                 table_name = input("Escribe el nombre de la tabla: ")
                 row_key = input("Escribe el valor de la fila: ")
                 record = get(table_name, row_key)
                 if record:
                     print(json.dumps(record, indent=2))
-            elif choice == '12' or choice == 'searchall':
+            elif choice == '12' or choice == 'scan':
                 table_name = input("Escribe el nombre de la tabla: ")
                 records = scan(table_name)
                 if records:

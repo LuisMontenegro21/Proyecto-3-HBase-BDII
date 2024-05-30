@@ -1,36 +1,6 @@
 from collections import defaultdict
-predefined_schemas = {
-    "employees": [
-        {"name": "employee_id", "type": "int"},
-        {"name": "first_name", "type": "string"},
-        {"name": "last_name", "type": "string"},
-        {"name": "department_id", "type": "int"},
-        {"name": "email", "type": "string"},
-        {"name": "hire_date", "type": "string"},
-        {"name": "salary", "type": "float"},
-        {"name": "position", "type": "string"}
-    ],
-    "departments": [
-        {"name": "department_id", "type": "int"},
-        {"name": "department_name", "type": "string"},
-        {"name": "creation_date", "type": "string"},
-        {"name": "manager_id", "type": "int"}
-    ],
-    "projects": [
-        {"name": "project_id", "type": "int"},
-        {"name": "project_name", "type": "string"},
-        {"name": "start_date", "type": "string"},
-        {"name": "end_date", "type": "string"}
-    ],
-    "candidates": [
-        {"name": "candidate_id", "type": "int"},
-        {"name": "first_name", "type": "string"},
-        {"name": "last_name", "type": "string"},
-        {"name": "department", "type": "string"},
-        {"name": "status", "type": "string"},
-        {"name": "email", "type": "string"}
-    ]
-}
+
+
 
 table_schemas = {
     'employees': {
@@ -39,13 +9,17 @@ table_schemas = {
         "name": "Employee",
         "fields": [
             {"name": "employee_id", "type": "int"},
-            {"name": "first_name", "type": "string"},
-            {"name": "last_name", "type": "string"},
-            {"name": "department_id", "type": "int"},
-            {"name": "email", "type": "string"},
-            {"name": "hire_date", "type": "string"},
-            {"name": "salary", "type": "float"},
-            {"name": "position", "type": "string"}
+            {"name": "personal:first_name", "type": "string"},
+            {"name": "personal:last_name", "type": "string"},
+            {"name": "employment:department_id", "type": "int"},
+            {"name": "personal:email", "type": "string"},
+            {"name": "employment:hire_date", "type": "string"},
+            {"name": "employment:salary", "type": "float"},
+            {"name": "employment:position", "type": "string"},
+            {"name": "employment:department_name", "type": "string"},
+            {"name": "employment:creation_date", "type": "string"},
+            {"name": "projects:project_1", "type": "string"},
+            {"name": "projects:project_2", "type": "string"}
         ]
     },
     'departments': {
@@ -54,9 +28,10 @@ table_schemas = {
         "name": "Department",
         "fields": [
             {"name": "department_id", "type": "int"},
-            {"name": "department_name", "type": "string"},
-            {"name": "creation_date", "type": "string"},
-            {"name": "manager_id", "type": "int"}
+            {"name": "info:department_name", "type": "string"},
+            {"name": "info:creation_date", "type": "string"},
+            {"name": "manager:manager_id", "type": "int"},
+            {"name": "manager:manager_name", "type": "string"}
         ]
     },
     'projects': {
@@ -65,9 +40,9 @@ table_schemas = {
         "name": "Project",
         "fields": [
             {"name": "project_id", "type": "int"},
-            {"name": "project_name", "type": "string"},
-            {"name": "start_date", "type": "string"},
-            {"name": "end_date", "type": "string"}
+            {"name": "info:project_name", "type": "string"},
+            {"name": "info:start_date", "type": "string"},
+            {"name": "info:finish_date", "type": "string"}
         ]
     },
     'candidates': {
@@ -76,14 +51,15 @@ table_schemas = {
         "name": "Candidate",
         "fields": [
             {"name": "candidate_id", "type": "int"},
-            {"name": "first_name", "type": "string"},
-            {"name": "last_name", "type": "string"},
-            {"name": "department", "type": "string"},
-            {"name": "status", "type": "string"},
-            {"name": "email", "type": "string"}
+            {"name": "personal:first_name", "type": "string"},
+            {"name": "personal:last_name", "type": "string"},
+            {"name": "personal:email", "type": "string"},
+            {"name": "application:department", "type": "string"},
+            {"name": "application:status", "type": "string"}
         ]
     }
 }
+
 
 tables = {}
 table_status = defaultdict(lambda: 'enabled')

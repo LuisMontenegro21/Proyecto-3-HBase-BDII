@@ -1,0 +1,1 @@
+{"namespace": "com.companyname.department", "type": "record", "name": "department", "fields": [{"name": "row_key", "type": "string"}, {"name": "timestamp", "type": "string"}, {"name": "version", "type": "int"}], "column_families": {"info": {"versions": 3}, "manager": {"versions": 3}}}

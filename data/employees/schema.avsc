@@ -1,0 +1,1 @@
+{"namespace": "com.companyname.employees", "type": "record", "name": "employees", "fields": [{"name": "row_key", "type": "string"}, {"name": "timestamp", "type": "string"}, {"name": "version", "type": "int"}], "column_families": {"personal": {"versions": 3}, "projects": {"versions": 3}, "employment": {"versions": 3}}}
