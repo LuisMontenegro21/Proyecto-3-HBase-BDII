@@ -58,8 +58,11 @@ def insert_record(table_name):
 
 def display_data(table_name):
     if table_name in tables:
-        for record in tables[table_name]['records']:
-            print(json.dumps(record, indent=2))
+        if table_status.get(table_name) == 'enabled':
+            for record in tables[table_name]['records']:
+                print(json.dumps(record, indent=2))
+        elif table_status.get(table_name) == 'disabled':
+            print(f"Table '{table_name}' is disabled.")
     else:
         print("Table does not exist.")
 
