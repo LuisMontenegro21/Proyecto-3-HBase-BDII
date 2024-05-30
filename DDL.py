@@ -101,20 +101,25 @@ def alter_table(table_name):
 
 
 def drop_table(table_name):
-    if table_name in table_schemas:
-        region_dir = f"data/{table_name}"
-        if os.path.exists(region_dir):
-            for root, dirs, files in os.walk(region_dir):
-                for name in files:
-                    os.remove(os.path.join(root, name))
-                for name in dirs:
-                    os.rmdir(os.path.join(root, name))
-            os.rmdir(region_dir)
-        del tables[table_name]
-        del table_status[table_name]
-        print(f"Table '{table_name}' dropped.")
-    else:
-        print(f"Table {table_name} does not exist")
+    table_found = False
+    for name in tables:
+        if name.lower() == table_name.lower():  # Comparación insensible a mayúsculas y minúsculas
+            table_found = True
+            region_dir = f"data/{name}"
+            if os.path.exists(region_dir):
+                for root, dirs, files in os.walk(region_dir):
+                    for name in files:
+                        os.remove(os.path.join(root, name))
+                    for name in dirs:
+                        os.rmdir(os.path.join(root, name))
+                os.rmdir(region_dir)
+            del tables[name]
+            del table_status[name]
+            print(f"Table '{name}' dropped.")
+            break
+
+    if not table_found:
+        print(f"Table '{table_name}' does not exist")
 
 
 def drop_all_tables():
